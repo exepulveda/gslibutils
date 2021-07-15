@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 '@author Exequiel Sepulveda https://github.com/exepulveda'
 import sys
 import os.path
@@ -22,5 +24,5 @@ def convert(input: str, output: str = sys.stdout, output_format: str = 'csv', de
 
         write_input_csv(title, var_names, rows, output, delimiter=delimiter)
 
-if __name__ == '__main__':
+def main():
     app()

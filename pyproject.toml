@@ -32,6 +32,9 @@ requires = [
 description-file = "README.md"
 requires-python = ">=3.6"
 
+[tool.flit.scripts]
+gslib2csv = "gslibutils.gslib2csv:main"
+
 [tool.flit.metadata.requires-extra]
 test = [
     "pytest >=4.4.0,<5.4.0",
