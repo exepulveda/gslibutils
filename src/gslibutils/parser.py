@@ -1,14 +1,14 @@
 '@author Exequiel Sepulveda https://github.com/exepulveda'
 import csv
-import argparse
 import sys
 import io
+import numpy as np
 
 from pandas import DataFrame
 
 def parse_input(input):
-    if isinstance(input, io.TextIOBase):
-        fd_gslib = stdin
+    if hasattr(input, 'read'):
+        fd_gslib = input
     elif isinstance(input, str):
         fd_gslib = open(input)
     else:
@@ -17,7 +17,7 @@ def parse_input(input):
     reader = csv.reader(fd_gslib, delimiter=' ', skipinitialspace=True) # GSLIB uses space as delimiter
     
     # read file title
-    title = next(reader)
+    title = ' '.join(next(reader))
     # read number of variables
     row = next(reader)
     nvars = int(row[0])
@@ -27,21 +27,20 @@ def parse_input(input):
         row = next(reader)
         name = '_'.join(row) # trick to join each separated text with _
         var_names += [name.strip()]
-
     
-    #read values
+    # read values
     rows = []
     for row in reader:
-        rows += [row[:n_cols]]
+        rows += [row[:nvars]]
 
     return title, var_names, rows
 
 def load_input_numpy(input):
     title, var_names, rows = parse_input(input)
 
-    return title, var_names, np.array(rows)
+    return title, var_names, np.array(rows).astype(np.float64)
 
 def load_input_df(input):
-    title, var_names, rows = parse_input(input)
+    title, var_names, rows = load_input_numpy(input)
 
-    return title, DataFrame(var_names, np.array(rows))
+    return title, DataFrame(rows, columns=var_names)

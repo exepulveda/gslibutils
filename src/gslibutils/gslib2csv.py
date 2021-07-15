@@ -19,5 +19,7 @@ def convert(input: str, output: str = sys.stdout, output_format: str = 'csv'):
     with open(input) as fd_gslib:
         title, var_names, rows = parse_input(fd_gslib)
 
+        write_input(title, var_names, rows)
+
 if __name__ == '__main__':
     app()
